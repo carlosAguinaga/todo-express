@@ -15,6 +15,7 @@ const getTasksCtrl = async (req, res, next) => {
   }
 };
 
+// eslint-disable-next-line consistent-return
 const getTaskCtrl = async (req, res, next) => {
   const id = Number(req.params.id);
   try {
