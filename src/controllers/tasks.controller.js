@@ -19,6 +19,9 @@ const getTaskCtrl = async (req, res, next) => {
   const id = Number(req.params.id);
   try {
     const task = await getTaskById(id);
+    if (task === undefined) {
+      return res.status(404).json({ message: 'No se encrontró la tarea' });
+    }
     res.json(task);
   } catch (error) {
     next(error);
@@ -26,15 +29,26 @@ const getTaskCtrl = async (req, res, next) => {
 };
 
 const postTaskCtrl = async (req, res, next) => {
-  const { title, description } = req.body; // Desestructuramos
+  // eslint-disable-next-line camelcase
+  const { title, description, due_date, created_at } = req.body; // Desestructuramos
+
   try {
     const newTask = {
       title,
       description,
+      due_date,
+      created_at,
+      completed: false,
     };
     // Enviamos la tarea al servicio
     const response = await addTask(newTask);
-    res.status(201).json(response);
+
+    res
+      .status(201)
+      .json({
+        task: response,
+        message: 'Se ha agregado la tarea en el sistema',
+      });
   } catch (error) {
     next(error);
   }
@@ -45,8 +59,12 @@ const putTaskCtrl = async (req, res, next) => {
   try {
     const task = req.body;
     // Enviamos la tarea al servicio
-    await updateTask(parseInt(id, 10), task);
-    res.status(204).json();
+    const response = await updateTask(parseInt(id, 10), task);
+
+    res.status(204).json({
+      task: response,
+      message: 'Se ha actualizado la tarea en el sistema',
+    });
   } catch (error) {
     next(error);
   }
