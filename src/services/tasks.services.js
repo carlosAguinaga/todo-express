@@ -28,7 +28,7 @@ const getTaskById = async (id) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const tasks = await getAllTasks();
-    const task = tasks.find((e) => e.id === id);
+    const task = tasks.find((e) => e.id === Number(id));
     return task;
   } catch (error) {
     throw error;
