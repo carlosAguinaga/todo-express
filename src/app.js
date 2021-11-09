@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const tasksRoutes = require('./routes/tasks.routes');
 const middlewareError = require('./middlewares/error.middleware');
-const path = require('path');
 
 const app = express();
 
