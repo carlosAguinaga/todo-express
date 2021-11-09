@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const tasksRoutes = require('./routes/tasks.routes');
 const middlewareError = require('./middlewares/error.middleware');
+const path = require('path');
 
 const app = express();
 
@@ -18,9 +19,10 @@ const app = express();
 */
 
 // routes -> controllers -> services
-
 app.use(express.json());
 app.use(cors());
+
+app.use(express.static('./src/public'));
 app.use(tasksRoutes);
 
 /*
